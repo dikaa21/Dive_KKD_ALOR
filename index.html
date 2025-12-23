@@ -13,6 +13,7 @@
         <link rel="stylesheet" href="css/MarkerCluster.css">
         <link rel="stylesheet" href="css/MarkerCluster.Default.css">
         <link rel="stylesheet" href="css/leaflet.photon.css">
+        <link rel="stylesheet" href="css/leaflet-measure.css">
         <style>
         html, body, #map {
             width: 100%;
@@ -37,6 +38,7 @@
         <script src="js/labelgun.min.js"></script>
         <script src="js/labels.js"></script>
         <script src="js/leaflet.photon.js"></script>
+        <script src="js/leaflet-measure.js"></script>
         <script src="js/leaflet.markercluster.js"></script>
         <script src="data/SHP_darat_alor_fix_DESA_1.js"></script>
         <script src="data/Titik_79_diving_alor_2.js"></script>
@@ -72,7 +74,7 @@
                     popup._contentNode.classList.add('media');
                     setTimeout(function() {
                         popup.update();
-                    }, 20);
+                    }, 10);
                 } else if (/\.(mp3|wav|ogg|aac)$/i.test(src)) {
                     var audio = document.createElement('audio');
                     audio.controls = true;
@@ -82,7 +84,7 @@
                     setTimeout(function() {
                         popup.setContent(tempDiv.innerHTML);
                         popup.update();
-                    }, 20);
+                    }, 10);
                 } else if (/\.(mp4|webm|ogg|mov)$/i.test(src)) {
                     var video = document.createElement('video');
                     video.controls = true;
@@ -100,7 +102,7 @@
                     setTimeout(function() {
                         popup.setContent(tempDiv.innerHTML);
                         popup.update();
-                    }, 20);
+                    }, 10);
                 } else {
                     popup._contentNode.classList.remove('media');
                 }
@@ -111,6 +113,16 @@
         var zoomControl = L.control.zoom({
             position: 'topleft'
         }).addTo(map);
+        var measureControl = new L.Control.Measure({
+            position: 'topleft',
+            primaryLengthUnit: 'meters',
+            secondaryLengthUnit: 'kilometers',
+            primaryAreaUnit: 'sqmeters',
+            secondaryAreaUnit: 'hectares'
+        });
+        measureControl.addTo(map);
+        document.getElementsByClassName('leaflet-control-measure-toggle')[0].innerHTML = '';
+        document.getElementsByClassName('leaflet-control-measure-toggle')[0].className += ' fas fa-ruler';
         var bounds_group = new L.featureGroup([]);
         function setBounds() {
         }
@@ -255,8 +267,8 @@
                         <td class="visible-with-data" id="Nama Lokal">' + (feature.properties['Nama Lokal'] !== null ? autolinker.link(String(feature.properties['Nama Lokal']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">Desa/kelur</th>\
-                        <td class="visible-with-data" id="Desa/kelur">' + (feature.properties['Desa/kelur'] !== null ? autolinker.link(String(feature.properties['Desa/kelur']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                        <th scope="row">Desa/Kelur</th>\
+                        <td class="visible-with-data" id="Desa/Kelur">' + (feature.properties['Desa/Kelur'] !== null ? autolinker.link(String(feature.properties['Desa/Kelur']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
                         <th scope="row">Kecamatan</th>\
